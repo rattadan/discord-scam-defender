@@ -1,8 +1,8 @@
-# Telegram Moderation Bot with Ollama Integration
+# Discord Scam Defender with Ollama Integration
 
-The most powerful way to keep scammers away from your Community
+The most powerful way to keep scammers away from your Discord community
 
-A powerful Telegram moderation bot that uses local LLMs via Ollama to detect and remove inappropriate content, scams, and spam from your Telegram groups. The bot features hybrid moderation with different character personalities and can analyze both text and images.
+A powerful Discord moderation bot that uses local LLMs via Ollama to detect and remove inappropriate content, scams, and spam from your Discord servers. The bot features hybrid moderation with different character personalities and can analyze both text and images.
 
 ## Features
 
@@ -38,8 +38,8 @@ A powerful Telegram moderation bot that uses local LLMs via Ollama to detect and
 1. **Clone this repository**
 
    ```bash
-   git clone https://github.com/yourusername/telegram-ban-bot.git
-   cd telegram-ban-bot_ollama
+   git clone https://github.com/rattadan/discord-scam-defender
+   cd discord-scam-defender
    ```
 
 2. **Create a virtual environment**
@@ -60,8 +60,9 @@ A powerful Telegram moderation bot that uses local LLMs via Ollama to detect and
    Ensure Ollama is installed and running. Pull the required models:
 
    ```bash
+   ollama pull llama3.2:1b
    ollama pull llama3.2-vision:latest
-   ollama pull moondream:latest
+ 
    ```
 
    Check available models with:
@@ -82,7 +83,7 @@ A powerful Telegram moderation bot that uses local LLMs via Ollama to detect and
 6. **Start the bot**
 
    ```bash
-   python telegram-ban-bot.py
+   python discord-scam-defender.py
    ```
 
 ## Telegram Bot Setup
@@ -115,7 +116,7 @@ All customization options are available in the `.env` file:
 ```env
 TELEGRAM_TOKEN=your_telegram_token_here
 OLLAMA_BASE_URL=http://localhost:11434
-TEXT_MODEL=llama3.2-vision:latest
+TEXT_MODEL=llama3.2:1b
 VISION_MODEL=llama3.2-vision:latest
 ```
 
