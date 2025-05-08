@@ -31,7 +31,7 @@ A powerful Discord moderation bot that uses local LLMs via Ollama to detect and 
 - [Ollama](https://ollama.ai/) installed locally with the following models:
   - `llama3.2-vision:latest` (for text and image analysis)
   - `moondream:latest` (alternative vision model)
-- Telegram Bot Token (from [@BotFather](https://t.me/botfather))
+- Discord Bot Token (from [Discord Developer Portal](https://discord.com/developers/applications))
 
 ## Installation
 
@@ -86,26 +86,28 @@ A powerful Discord moderation bot that uses local LLMs via Ollama to detect and 
    python discord-scam-defender.py
    ```
 
-## Telegram Bot Setup
+## Discord Bot Setup
 
 1. **Create a new bot**
-   - Contact [@BotFather](https://t.me/botfather) on Telegram
-   - Send `/newbot` and follow the instructions
-   - Copy the API token and add it to your `.env` file
+   - Go to the [Discord Developer Portal](https://discord.com/developers/applications)
+   - Click "New Application" and give it a name
+   - Navigate to the "Bot" tab and click "Add Bot"
+   - Copy the token and add it to your `.env` file
+   - Enable necessary Privileged Gateway Intents (Message Content, Server Members, etc.)
 
-2. **Configure Group Permissions**
-   - Add your bot to your Telegram group
-   - Make the bot an admin with these permissions:
-     - Delete messages
-     - Ban users
-     - Pin messages (optional but recommended)
-   - The bot does NOT need to see all messages by default
+2. **Invite the Bot to Your Server**
+   - Go to the "OAuth2" > "URL Generator" tab
+   - Select the "bot" scope and the following permissions:
+     - Manage Messages (to delete inappropriate content)
+     - Kick/Ban Members
+     - Read Messages/View Channels
+     - Send Messages
+   - Copy the generated URL and open it in your browser
+   - Select your server and authorize the bot
 
-3. **Privacy Settings**
-   - Send `/setprivacy` to @BotFather
-   - Select your bot
-   - Set it to `Disable` if you want the bot to see all messages in the group
-   - Set it to `Enable` if you only want the bot to see messages that start with a command (in this case, the bot will only moderate messages when it's @mentioned)
+3. **Configure Server Permissions**
+   - Make sure the bot's role is positioned higher than the roles it needs to moderate
+   - Ensure the bot has permissions in the channels you want it to moderate
 
 ## Customization
 
@@ -114,7 +116,7 @@ All customization options are available in the `.env` file:
 ### Basic Configuration
 
 ```env
-TELEGRAM_TOKEN=your_telegram_token_here
+DISCORD_TOKEN=your_discord_token_here
 OLLAMA_BASE_URL=http://localhost:11434
 TEXT_MODEL=llama3.2:1b
 VISION_MODEL=llama3.2-vision:latest
@@ -128,21 +130,21 @@ VISION_MODEL=llama3.2-vision:latest
 Create a systemd service file:
 
 ```bash
-sudo nano /etc/systemd/system/telegram-ban-bot.service
+sudo nano /etc/systemd/system/discord-scam-defender.service
 ```
 
 Add the following content (adjust paths as needed):
 
 ```ini
 [Unit]
-Description=Telegram Moderation Bot
+Description=Discord Moderation Bot
 After=network.target
 
 [Service]
 User=yourusername
-WorkingDirectory=/path/to/telegram-ban-bot_ollama
-Environment="PATH=/path/to/telegram-ban-bot_ollama/newenv/bin"
-ExecStart=/path/to/telegram-ban-bot_ollama/newenv/bin/python telegram-ban-bot.py
+WorkingDirectory=/path/to/discord-scam-defender
+Environment="PATH=/path/to/discord-scam-defender/newenv/bin"
+ExecStart=/path/to/discord-scam-defender/newenv/bin/python discord-scam-defender.py
 Restart=always
 
 [Install]
@@ -152,8 +154,8 @@ WantedBy=multi-user.target
 Enable and start the service:
 
 ```bash
-sudo systemctl enable telegram-ban-bot
-sudo systemctl start telegram-ban-bot
+sudo systemctl enable discord-scam-defender
+sudo systemctl start discord-scam-defender
 ```
 
 ### Docker
@@ -170,5 +172,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "telegram-ban-bot.py"]
+CMD ["python", "discord-scam-defender.py"]
 ```
